@@ -69,7 +69,7 @@ Stack::~Stack()
 void expressionSeparate(string args, string *expression, int *expressionSize)
 {
     int count = 0;
-    for (int i = 0; i < *expressionSize; i++)
+    for (int i = 0; i < args.length(); i++)
     {
         if (args[i] >= 48 && args[i] <= 57)
         {
