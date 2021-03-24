@@ -5,7 +5,18 @@
 using namespace std;
 
 
-int do_it (int a, int b, char c) {
+int do_it (Stack &nums, Stack &operations) {
+
+    int a, b;
+    char c;
+
+    b = stoi(nums.top());
+    nums.pop();
+    a = stoi(nums.top());
+    nums.pop();
+    c = operations.top()[0];
+    operations.pop();
+
     if (c == '+') {
         return a + b;
     } else if (c == '-') {
@@ -16,8 +27,8 @@ int do_it (int a, int b, char c) {
         return a / b;
     } else if (c == '^') {
         int res = 1;
-        for (int i = 1; i <= a; i++) {
-            res *= b;
+        for (int i = 1; i <= b; i++) {
+            res *= a;
         }
         return res;
     } 
@@ -25,96 +36,59 @@ int do_it (int a, int b, char c) {
 }
 
 
+
 int calculation (string *s, int size) {
-    Stack n, o;
-    int p1, p2, r;
+    Stack nums, operations;
+    int p1, p2, res;
     char c;
 
     for (int i = 0; i < size; i++) {
-
         if (s[i][0] >= '0' && s[i][0] <= '9') {
-
-            n.push(s[i]);
-
+            nums.push(s[i]);
+            
         } else if (s[i] == "+" || s[i] == "-") {
-
-            if (!o.isEmpty() && (o.top() == "*" || o.top() == "/" || o.top() == "-" || o.top() == "+")) {
-
-                while (!o.isEmpty() && (o.top() == "*" || o.top() == "/" || o.top() == "-" || o.top() == "+"))
+            if (!operations.isEmpty() && (operations.top() == "*" || operations.top() == "/" || operations.top() == "-" || operations.top() == "+"  || operations.top() == "^")) {
+                while (!operations.isEmpty() && (operations.top() == "*" || operations.top() == "/" || operations.top() == "-" || operations.top() == "+" || operations.top() == "^"))
                 {
-                    p1 = stoi(n.top());
-                    n.pop();
-                    p2 = stoi(n.top());
-                    n.pop();
-                    c = o.top()[0];
-                    o.pop();
-                    r = do_it(p2, p1, c);
-                    n.push(to_string(r));
+                    res = do_it(nums, operations);
+                    nums.push(to_string(res));
                 }
             } 
-            o.push(s[i]);
+
+            operations.push(s[i]);
 
         } else if (s[i] == "*" || s[i] == "/") {
-            
-            if (!o.isEmpty() && (o.top() == "*" || o.top() == "/")) {
-
-                while (o.top() == "*" || o.top() == "/")
+            if (!operations.isEmpty() && (operations.top() == "*" || operations.top() == "/" || operations.top() == "^")) {
+                while (operations.top() == "*" || operations.top() == "/" || operations.top() == "^")
                 {
-                    p1 = stoi(n.top());
-                    n.pop();
-                    p2 = stoi(n.top());
-                    n.pop();
-                    c = o.top()[0];
-                    o.pop();
-                    r = do_it(p2, p1, c);
-                    n.push(to_string(r));
+                    res = do_it(nums, operations);
+                    nums.push(to_string(res));
                 }
-                
             } 
-            
-            o.push(s[i]);
+
+            operations.push(s[i]);
 
         } else if (s[i] == "(") {
-
-            o.push(s[i]);
+            operations.push(s[i]);
 
         } else if (s[i] == ")") {
-
-            while (o.top() != "(")
+            while (operations.top() != "(")
             {
-                p1 = stoi(n.top());
-                n.pop();
-                p2 = stoi(n.top());
-                n.pop();
-                c = o.top()[0];
-                o.pop();
-                r = do_it(p2, p1, c);
-                n.push(to_string(r));
+                res = do_it(nums, operations);
+                nums.push(to_string(res));
             }
-            
-            o.pop();
 
-        } else if (o.top() != "^") {
-            p1 = stoi(n.top());
-            n.pop();
-            i++;
-            p2 = stoi(s[i]);
-            c = '^';
-            r = do_it(p2, p1, c);
-            n.push(to_string(r));
+            operations.pop();
+
+        } else if (operations.top() != "^") {
+            operations.push(s[i]);
         }
     }
 
-    while(!o.isEmpty() && !n.isEmpty()) {
-        p1 = stoi(n.top());
-        n.pop();
-        p2 = stoi(n.top());
-        n.pop();
-        c = o.top()[0];
-        o.pop();
-        r = do_it(p2, p1, c);
-        n.push(to_string(r));
+    while(!operations.isEmpty() && !nums.isEmpty()) {
+        res = do_it(nums, operations);
+        nums.push(to_string(res));
     }
 
-    return stoi(n.top());
+    return stoi(nums.top());
 }
