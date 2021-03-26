@@ -39,13 +39,12 @@ int do_it (Stack &nums, Stack &operations) {
 
 int calculation (string *s, int size) {
     Stack nums, operations;
-    int p1, p2, res;
-    char c;
+    int res;
 
     for (int i = 0; i < size; i++) {
         if (s[i][0] >= '0' && s[i][0] <= '9') {
             nums.push(s[i]);
-            
+
         } else if (s[i] == "+" || s[i] == "-") {
             if (!operations.isEmpty() && (operations.top() == "*" || operations.top() == "/" || operations.top() == "-" || operations.top() == "+"  || operations.top() == "^")) {
                 while (!operations.isEmpty() && (operations.top() == "*" || operations.top() == "/" || operations.top() == "-" || operations.top() == "+" || operations.top() == "^"))
@@ -54,6 +53,10 @@ int calculation (string *s, int size) {
                     nums.push(to_string(res));
                 }
             } 
+
+            if (i == 0 || !(s[i-1][0] >= '0' && s[i-1][0] <= '9')) {
+                nums.push("0");
+            }
 
             operations.push(s[i]);
 
