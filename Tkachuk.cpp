@@ -54,7 +54,7 @@ int calculation (string *s, int size) {
                 }
             } 
 
-            if (i == 0 || !(s[i-1][0] >= '0' && s[i-1][0] <= '9')) {
+            if ((i == 0 || !(s[i-1][0] >= '0' && s[i-1][0] <= '9')) && s[i-1] != ")") {
                 nums.push("0");
             }
 
@@ -83,7 +83,7 @@ int calculation (string *s, int size) {
 
             operations.pop();
 
-        } else if (operations.top() != "^") {
+        } else if (operations.top() != "^" && s[i] == "^") {
             operations.push(s[i]);
         }
     }

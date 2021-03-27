@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
     {
         args += argv[i];
     }
-    string *expression = new string[args.size()];
+    string *expression = new string[args.size()+1];
 
     int expression_size;
     expressionSeparate(args, expression, &expression_size);
