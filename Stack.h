@@ -19,5 +19,3 @@ public:
     string top();
     bool isEmpty();
 };
-
-void expressionSeparate(string, string *, int *);

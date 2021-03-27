@@ -1,6 +1,6 @@
 #include <iostream>
-#include "Tkachuk.h"
-#include "Hernuf.h"
+#include "Calculation.h"
+#include "Stack.h"
 using namespace std;
 
 int main(int argc, char *argv[])
@@ -14,6 +14,6 @@ int main(int argc, char *argv[])
 
     int expression_size;
     expressionSeparate(args, expression, &expression_size);
-    cout << calculation(expression, expression_size) << endl;
+    cout << calculate(expression, expression_size) << endl;
     delete[] expression;
 }

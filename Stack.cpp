@@ -1,4 +1,4 @@
-#include "Hernuf.h"
+#include "Stack.h"
 
 Stack::Stack(int size)
 {
@@ -64,29 +64,4 @@ bool Stack::isEmpty()
 Stack::~Stack()
 {
     delete[] this->array;
-}
-
-void expressionSeparate(string args, string *expression, int *expressionSize)
-{
-    int count = 0;
-    for (int i = 0; i < args.length(); i++)
-    {
-        if ((args[i] >= 48 && args[i] <= 57) || args[i] == 46)
-        {
-            if (count > 0 && !(expression[count][0] >= 48 && expression[count][0] <= 57))
-            {
-                count++;
-            }
-            expression[count] += args[i];
-        }
-        else
-        {
-            if (args[i] != ' ')
-            {
-                count++;
-                expression[count] += args[i];
-            }
-        }
-    }
-    *expressionSize = count + 1;
 }
